@@ -11,6 +11,9 @@ ENV DEBIAN_FRONTEND noninteractive
 
 MAINTAINER Sidney curron <scurron@lafourchette.com> 
 
+# Update the repository sources list (positionned here for the cache)
+RUN apt-get update
+
 # Install MongoDB Following the Instructions at MongoDB Docs
 # Add the package verification key
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
@@ -36,8 +39,3 @@ CMD ["--port 27017"]
 
 # Set default container command
 ENTRYPOINT /usr/bin/mongod
-
-# Update the repository sources list (positionned here for the cache)
-RUN apt-get update
-
-

@@ -12,6 +12,9 @@ MAINTAINER Sidney curron <scurron@lafourchette.com>
 # Basic Requirements
 RUN apt-get -y install php5-fpm php5-mysql php-apc php5-xdebug
 
+# Update the repository sources list (positionned here for the cache)
+RUN apt-get update
+
 # Install Extra PHP Modules
 RUN apt-get -y install php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcached php5-ming php5-ps php5-pspell php5-recode php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-cli 
 
@@ -34,9 +37,6 @@ RUN sed -i -e "s/listen.owner = www-data/listen.owner = nginx/g" /etc/php5/fpm/p
 RUN sed -i -e "s/listen.group = www-data/listen.group = nginx/g" /etc/php5/fpm/pool.d/www.conf
 RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0750/g" /etc/php5/fpm/pool.d/www.conf
 RUN find /etc/php5/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
-
-# Update the repository sources list (positionned here for the cache)
-RUN apt-get update
 
 # Clean up
 RUN apt-get -y autoremove
