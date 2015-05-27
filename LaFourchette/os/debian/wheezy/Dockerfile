@@ -27,7 +27,7 @@ RUN apt-get update
 RUN apt-get install -y --force-yes software-properties-common
 
 # Utils
-RUN apt-get install -y --force-yes apt-utils python-setuptools pwgen python-setuptools curl git unzip vim wget
+RUN apt-get install -y --force-yes apt-utils pwgen python-setuptools curl git unzip vim wget
 
 # Working directory
 WORKDIR /var/www
