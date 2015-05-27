@@ -3,6 +3,10 @@
 # Based on Debian:wheezy
 ############################################################
 
+# ERROR WHEN BUILDING:
+#invoke-rc.d: policy-rc.d denied execution of start.
+# FIX (sed cmd?): edit contents of /usr/sbin/policy-rc.d, to replace exit 101 by exit 0.
+
 # Set the base image to Ubuntu
 FROM debian:wheezy
 
@@ -11,6 +15,9 @@ MAINTAINER Sidney curron <scurron@lafourchette.com>
 
 # Let the conatiner know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
+
+# Update the repository sources list (positionned here for the cache)
+RUN apt-get update
 
 # Dotdeb GPG key
 RUN gpg --keyserver keys.gnupg.net --recv-key 89DF5277
@@ -24,10 +31,29 @@ RUN apt-get update
 RUN echo "deb http://packages.dotdeb.org wheezy all" | tee -a /etc/apt/sources.list.d/dotdeb.list
 
 RUN apt-get update
-RUN apt-get install -y --force-yes software-properties-common
 
-# Utils
-RUN apt-get install -y --force-yes apt-utils pwgen python-setuptools curl git unzip vim wget
+RUN apt-get install -y --force-yes \
+  apt-utils \
+  software-properties-common \
+  build-essential \
+  make \
+  gcc \
+  python-dev \
+  locales \
+  python-pip \
+  pwgen \
+  python-setuptools \
+  curl \
+  git \
+  unzip \
+  vim \
+  wget
+
+RUN dpkg-reconfigure locales && \
+    locale-gen C.UTF-8 && \
+    /usr/sbin/update-locale LANG=C.UTF-8
+
+ENV LC_ALL C.UTF-8
 
 # Working directory
 WORKDIR /var/www

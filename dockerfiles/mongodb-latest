@@ -1,18 +1,19 @@
 ############################################################
 # Dockerfile to build MongoDB container images
-# Based on debian:wheezy 
+# Based on debian:wheezy
 ############################################################
 
 # Set the base image to Ubuntu
 FROM debian:wheezy
 
+# File Author / Maintainer
+MAINTAINER Sidney curron <scurron@lafourchette.com>
+
 # Let the conatiner know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
-MAINTAINER Sidney curron <scurron@lafourchette.com> 
-
 # Update the repository sources list (positionned here for the cache)
-RUN apt-get update
+RUN apt-get -y update
 
 # Install MongoDB Following the Instructions at MongoDB Docs
 # Add the package verification key
@@ -25,7 +26,11 @@ RUN echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10ge
 RUN apt-get update
 
 # Install MongoDB package (.deb)
-RUN apt-get install -y apt-utils adduser mongodb-org-server mongodb-org-shell
+RUN apt-get install -y --force-yes \
+  apt-utils \
+  adduser \
+  mongodb-org-server \
+  mongodb-org-shell
 
 # Create the default data directory
 RUN mkdir -p /data/db
