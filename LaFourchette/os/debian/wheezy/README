@@ -1,0 +1,3 @@
+# HOW TO USE
+docker build -t="lafourchette/wheezy" .
+docker run -i -t lafourchette/wheezy /bin/bash
