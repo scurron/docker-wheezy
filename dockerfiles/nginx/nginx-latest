@@ -28,7 +28,7 @@ RUN echo deb http://nginx.org/packages/debian/ wheezy nginx >> /etc/apt/sources.
 RUN echo deb-src http://nginx.org/packages/debian/ wheezy nginx >> /etc/apt/sources.list
 
 # tweak nginx config
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+#RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # Working directory
 WORKDIR /var/www
@@ -44,7 +44,7 @@ RUN mkdir -p /etc/nginx/ssl/
 # Volumes
 VOLUME ["/etc/nginx/sites-enabled", "/var/log/nginx", "/var/www", "/etc/nginx/conf.d"]
 
-CMD ["nginx"]
+CMD ["nginx", "-g", "daemon off;"]
 
 EXPOSE 80
 EXPOSE 443
