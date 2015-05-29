@@ -1,0 +1,31 @@
+projects:
+  image: lafourchette/projects
+  volumes:
+    - /var/www
+  tty: true
+php:
+  image: lafourchette/php55-fpm
+  expose:
+    - 9000:9000
+  links:
+    - database 
+  volumes_from:
+    - projects
+nginx:
+  image: lafourchette/nginx
+  ports:
+    - 80:80
+  links:
+    - php
+  volumes:
+    - /var/logs/nginx
+  volumes_from:
+   - projects
+database:
+  image: lafourchette/db-server
+  ports:
+    - 3306:3306
+  links:
+    - data
+data:
+  image: lafourchette/db-data
